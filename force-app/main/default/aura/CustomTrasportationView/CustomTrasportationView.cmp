@@ -1,0 +1,66 @@
+<aura:component implements="force:appHostable" access="global" controller="TransportationView">
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="isOpenUpdate" type="boolean" default="false"/>
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <aura:attribute name="listViewResult" type="string[]"/>
+    <aura:attribute name="TransportationId" type="string"/>
+    <lightning:card variant="Narrow" title="Transportation" iconName="standard:account">
+        <lightning:button class="new-btn" variant="neutral" label="New" title="New" onclick="{! c.openModel }"/>
+        <div class="slds-form-element">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Company">Company</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Driver">Driver</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Product">Product</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="State">State</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.listViewResult}" var="listView">
+                        <tr class="slds-hint-parent">
+                            <th data-label="Name" scope="row">
+                                <div class="slds-truncate" title="name">
+                                    <a onclick="{! c.openUpdate }" data-record="{!listView.id}">{!listView.name}</a>
+                                </div>
+                            </th>
+                            <th data-label="Name" scope="row">
+                                <div class="slds-truncate" title="name">
+                                    <p>{!listView.company}</p>
+                                </div>
+                            </th>
+                            <th data-label="Name" scope="row">
+                                <div class="slds-truncate" title="name">
+                                    <p>{!listView.driver}</p>
+                                </div>
+                            </th>
+                            <th data-label="Name" scope="row">
+                                <div class="slds-truncate" title="name">
+                                    <p>{!listView.product}</p>
+                                </div>
+                            </th>
+                            <th data-label="Name" scope="row">
+                                <div class="slds-truncate" title="name">
+                                    <p>{!listView.state}</p>
+                                </div>
+                            </th>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </lightning:card>
+    <c:CustomTransportaionCreate isOpen = "{!v.isOpen}"></c:CustomTransportaionCreate>
+    {!v.body}
+</aura:component>

@@ -1,0 +1,35 @@
+.THIS.search {
+    z-index: 1;
+    position: absolute;
+    background-color: white;
+    border: solid 1px skyblue;
+    margin-top: 5px;
+    border-radius: 0.25rem;
+    width: 250px;
+    margin-left: 10px;
+}
+
+.THIS .choose{
+    padding-left: 10px;
+}
+
+.THIS .choose:hover {
+    background-color: skyblue;
+    color: white;
+    cursor: pointer;
+}
+
+.THIS.flex {
+    display: flex;
+}
+
+.THIS .lookupInput{
+    flex: 1;
+}
+
+.THIS .btn {
+    margin-top: 21px;
+    margin-left: -20px;
+}
+
+

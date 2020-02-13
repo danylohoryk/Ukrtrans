@@ -1,0 +1,40 @@
+<aura:component implements="force:appHostable" access="global" controller="TransportationView">
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="isOpenUpdate" type="boolean" default="false"/>
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <aura:attribute name="listViewResult" type="string[]"/>
+    <aura:attribute name="TransportationId" type="string"/>
+    <aura:attribute name="objectInfo" type="string" default="Transportation"/>
+    <aura:attribute name="currentListViewName" type="string" />
+    <aura:attribute name="bShowListView" type="boolean" default="false"/> 
+    <lightning:card variant="Narrow" title="Transportation" iconName="standard:account">
+        <lightning:button variant="neutral" 
+        label="New"
+        title="New"
+        onclick="{! c.openModel }"/>
+        <div class="slds-form-element">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.listViewResult}" var="listView">
+                        <tr class="slds-hint-parent">
+                            <th data-label="Name" scope="row">
+                                <div class="slds-truncate" title="name">
+                                    <a onclick="{! c.openModelUpdate }" data-record="{!listView.id}">{!listView.name}</a>
+                                </div>
+                            </th>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </lightning:card>
+    <c:TransportationCreateRecord isOpen = "{!v.isOpen}"></c:TransportationCreateRecord>
+    <c:TransportatinUpdate isOpen="{!v.isOpenUpdate}" transportationId="{!v.TransportationId}"></c:TransportatinUpdate>
+</aura:component>	

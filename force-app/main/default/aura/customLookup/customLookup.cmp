@@ -1,0 +1,33 @@
+<aura:component controller='lookupField'>
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="ObjectName" type="String"/>
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="search" type="String" default=""/>
+    <aura:attribute name="records" type="List"/>
+    <aura:attribute name="name" type="String"/>
+    <aura:if isTrue="{!empty(v.value)}">
+        <lightning:input
+            class="input"
+            aura:id="search"
+            name="search"
+            label="{!v.label}"
+            type="search"
+            onchange="{!c.search}"
+        />
+        <aura:if isTrue="{!v.search != ''}">
+            <div class="search">
+                <ul>
+                    <aura:iteration items="{!v.records}" var="record">
+                        <li class="choose" data-record="{!record.Id}" onclick="{!c.searchChoose}">{!record.Name}</li>
+                    </aura:iteration>
+                </ul>
+            </div>
+        </aura:if>
+        <aura:set attribute="else">
+            <div class="flex">
+                <lightning:input class="lookupInput input" readonly="true" label="{!v.label}" type="text" value="{!v.name}"/>
+                <lightning:buttonIcon class="btn" iconName="utility:close" size="small" alternativeText="Remove selected option" variant="bare" onclick="{!c.removeSelectedOption}"/>
+            </div>
+        </aura:set>
+    </aura:if>
+</aura:component>	

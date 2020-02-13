@@ -1,0 +1,58 @@
+<aura:component implements="force:appHostable" controller="InsertTransportation">
+    <aura:attribute name="isOpen" type="Boolean" default="{!v.isOpen}" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="value" type="Transportation__c" default="{'Name':'',
+    'Companies__c':'',
+    'Contact__c':'',
+    'Destination_Pick_on_Map__c':'',
+    'Drivers__c':'',
+    'Price__c':'',
+    'Starting_Point_Pick_on_Map__c':'',
+    'State__c':'recieved',
+    'Type_of_product__c':'',
+    'Urgent_1_10__c':'',}" />
+    <aura:if isTrue="{!v.isOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- ###### MODAL BOX HEADER Start ######-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                        onclick="{! c.closeModel }"
+                        alternativeText="close"
+                        variant="bare-inverse"
+                        class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Transportation</h2>
+                </header>
+                <!--###### MODAL BOX BODY Part Start######-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <!-- the messages component is for error messages -->
+                        <lightning:messages />
+                        <div class="slds-grid create">
+                            <div class="slds-col slds-size_1-of-2">
+                                <c:customLookup ObjectName="Contact" value="{!v.value.Contact__c}" label="Contact"></c:customLookup>
+                                <c:customLookup ObjectName="Company__c" value="{!v.value.Companies__c}" label="Company"></c:customLookup>
+                                <lightning:input class="input" label="Destination point" value="{!v.value.Destination_Pick_on_Map__c}" />
+                                <c:customLookup ObjectName="Driver__c" value="{!v.value.Drivers__c}" label="Driver"></c:customLookup>
+                                <lightning:input class="input" type="number" label="Price" value="{!v.value.Price__c}" formatter="currency" max="18" step="0.1"/>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning:input class="input" label="Starting point" value="{!v.value.Starting_Point_Pick_on_Map__c}" />
+                                <lightning:input class="input" label="Name" value="{!v.value.Name}" />
+                                <lightning:input class="input" label="Type of product" value="{!v.value.Type_of_product__c}" />
+                                <lightning:input class="input" label="Urgent" value="{!v.value.Urgent_1_10__c}" />
+                            </div>
+                        </div>
+                </div>
+                <!--###### MODAL BOX FOOTER Part Start ######-->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" 
+                            label="Cancel"
+                            title="Cancel"
+                            onclick="{! c.closeModel }"/>
+                    <lightning:button variant="brand" type="submit" name="save" label="Save" onclick="{! c.submit }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>
