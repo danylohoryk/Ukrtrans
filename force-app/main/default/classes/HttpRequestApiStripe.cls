@@ -26,7 +26,15 @@ public class HttpRequestApiStripe {
         req.setHeader('Authorization', 'Bearer ' + api_key);
         HttpResponse response = http.send(req);
         if (response.getStatusCode() == 200) {
-            System.debug('Your customer was created on Stripe.');
+            String jsonBody = response.getbody();
+            JSON2Apex json = JSON2Apex.parse(jsonBody);
+            for(JSON2Apex.Data field : json.Data){
+                Account acc = new Account();
+                acc.Name = field.name;
+                acc.Acc_Email__c = field.email.toString();
+                acc.Import__c = true;
+                insert acc;
+            }
         }
         else {
             System.debug('Something went wrong!');

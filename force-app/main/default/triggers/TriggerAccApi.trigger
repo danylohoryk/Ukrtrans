@@ -1,5 +1,9 @@
 trigger TriggerAccApi on Account (after insert, after update) {
     if(Trigger.isInsert) {
-        ID jobID = System.enqueueJob(new QueueableApiStripe(Trigger.new));
+        for (Account acc : Trigger.new){
+            if(acc.Import__c == false){
+                ID jobID = System.enqueueJob(new QueueableApiStripe(Trigger.new));
+            }
+        }
     }
 }
