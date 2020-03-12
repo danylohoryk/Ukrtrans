@@ -1,13 +1,22 @@
 trigger TriggerAccApi on Account (after insert, after update) {
     if(Trigger.isInsert) {
-        Boolean check = false;
+        List<Account> accounts = new List<Account>();
         for (Account acc : Trigger.new){
-            if(acc.Import__c == false){
-                check = true;
+            if(acc.Stripe_Id__c == null){
+                accounts.add(acc);
             }
         }
-        if (check == true){
-            ID jobID = System.enqueueJob(new QueueableApiStripe(Trigger.new));
+        if (!accounts.isEmpty()){
+            ID jobID = System.enqueueJob(new QueueableApiStripe(accounts));
+        }
+    }
+    if (Trigger.isUpdate) {
+        for(Account accNew : Trigger.new){
+            for(Account accOld : Trigger.old){
+                if(accNew.Stripe_Id__c == accOld.Stripe_Id__c && accNew.Update_on_Stripe__c == True){
+                    ID jobID = System.enqueueJob(new QueueableApiUpdateCustomer(Trigger.new));
+                }
+            }
         }
     }
 }

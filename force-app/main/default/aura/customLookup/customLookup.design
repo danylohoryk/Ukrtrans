@@ -1,3 +1,4 @@
 <design:component >
-
+    <design:attribute name="ObjectName" label="Search Object"/>
+    <design:attribute name="value" label="Id"/>
 </design:component>
