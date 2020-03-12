@@ -51,11 +51,11 @@ public class HttpRequestApiStripe {
         if (response.getStatusCode() == 200) {
             String jsonBody = response.getbody();
             JSON2Apex json = JSON2Apex.parse(jsonBody);
-            Map<Id, JSON2Apex.Data> jsonObj = new Map<Id, JSON2Apex.Data>();
+            Map<String, JSON2Apex.Data> jsonObj = new Map<String, JSON2Apex.Data>();
             for(JSON2Apex.Data field : json.Data){
                 jsonObj.put(field.id, field);
             }
-            List<Account> accounts = [SELECT Id, Name, Acc_Email__c, Stripe_Id__c FROM Account WHERE Stripe_Id__c IN (:jsonObj.keySet().toString())];
+            List<Account> accounts = [SELECT Id, Name, Acc_Email__c, Stripe_Id__c FROM Account WHERE Stripe_Id__c IN :jsonObj.keySet()];
             List<String> Stripe_id = new List<String>();
             for(Account acc : accounts){
                 JSON2Apex.Data Jsn = jsonObj.get(acc.Stripe_Id__c);
@@ -64,6 +64,7 @@ public class HttpRequestApiStripe {
                     acc.Name = Jsn.name;
                     acc.Acc_Email__c = Jsn.email.toString();
                     acc.Update_on_Stripe__c = False;
+                    System.debug('Update');
                     update acc;
                 }
             }
@@ -73,6 +74,7 @@ public class HttpRequestApiStripe {
                     acc.Name = field.name;
                     acc.Acc_Email__c = field.email.toString();
                     acc.Stripe_Id__c = field.id;
+                    System.debug('Insert');
                     insert acc;
                 }
             }
