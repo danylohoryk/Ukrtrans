@@ -10,7 +10,12 @@ global class TransportationBatch implements Database.Batchable<sObject>{
                 trans.Closed__c = true;
             }
         }
-        update transportations;
+        try {
+            update transportations;
+        } catch (DmlException e) {
+            System.debug('The following exception has occurred: ' + e.getMessage());
+        }
+        
     }
     global void finish(Database.BatchableContext bc){
 

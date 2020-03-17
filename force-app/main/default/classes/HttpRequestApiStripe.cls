@@ -57,6 +57,8 @@ public class HttpRequestApiStripe {
             }
             List<Account> accounts = [SELECT Id, Name, Acc_Email__c, Stripe_Id__c FROM Account WHERE Stripe_Id__c IN :jsonObj.keySet()];
             List<String> Stripe_id = new List<String>();
+            List<Account> accontsToInsert = new List<Account>();
+            List<Account> accontsToUpdate = new List<Account>();
             for(Account acc : accounts){
                 JSON2Apex.Data Jsn = jsonObj.get(acc.Stripe_Id__c);
                 Stripe_id.add(acc.Stripe_Id__c);
@@ -64,8 +66,7 @@ public class HttpRequestApiStripe {
                     acc.Name = Jsn.name;
                     acc.Acc_Email__c = Jsn.email.toString();
                     acc.Update_on_Stripe__c = False;
-                    System.debug('Update');
-                    update acc;
+                    accontsToUpdate.add(acc);
                 }
             }
             for(JSON2Apex.Data field : json.Data){
@@ -75,9 +76,17 @@ public class HttpRequestApiStripe {
                     acc.Acc_Email__c = field.email.toString();
                     acc.Stripe_Id__c = field.id;
                     System.debug('Insert');
-                    insert acc;
+                    accontsToInsert.add(acc);
                 }
             }
+            try{
+                insert accontsToInsert;
+                update accontsToUpdate;
+            }
+            catch(DmlException e) {
+                System.debug('The following exception has occurred: ' + e.getMessage());
+            }
+            
         }
         else {
             System.debug('Something went wrong!');

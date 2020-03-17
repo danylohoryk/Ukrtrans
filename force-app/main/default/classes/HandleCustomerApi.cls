@@ -1,4 +1,4 @@
-@RestResource(urlMapping='/ApiCustomer/*')
+@RestResource(urlMapping='/apicustomer')
  global with sharing class HandleCustomerApi {
     @HttpPost
     global static void doPost() {
